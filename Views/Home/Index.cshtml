@@ -1,0 +1,28 @@
+﻿@model List<TaskManager.Models.Task>
+
+<h2>Gerenciador de Tarefas</h2>
+
+<form asp-action="AddTask" method="post">
+    <input type="text" name="title" placeholder="Título da Tarefa" required />
+    <input type="text" name="description" placeholder="Descreva sua tarefa" />
+    <input type="date" name="dueDate" required />
+    <button type="submit">Adicionar a Tarefa</button>
+</form>
+
+<h3>Lista de Tarefas</h3>
+<ul>
+    @foreach (var task in Model)
+    {
+        <li>
+            @task.Title - @task.Description - @task.DueDate.ToShortDateString() - @(task.isCompleted ? "Concluída" : "Pendente")
+            <form asp-action="CompleteTask" method="post" style="display:inline;">
+                <input type="hidden" name="id" value="@task.Id" />
+                <button type="submit">✅</button>
+            </form>
+            <form asp-action="RemoveTask" method="post" style="display:inline;">
+                <input type="hidden" name="id" value="@task.Id" />
+                <button type="submit">🗑️</button>
+            </form>
+        </li>
+    }
+</ul>
